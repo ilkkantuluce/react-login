@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import axios from "axios"
-import { FacebookProvider, LoginButton } from 'react-facebook';
+import MicrosoftLogin from "react-microsoft-login";
 
 
 function App() {
@@ -31,14 +31,10 @@ function App() {
     googleLogout();
   };
 
- 
-  function handleSuccess(response) {
-    console.log(response.status);
-  }
 
-  function handleError(error) {
-    console.log(error);
-  }
+  const authHandler = (err, data) => {
+    console.log(err, data);
+  };
 
   return (
     <div>
@@ -58,16 +54,8 @@ function App() {
       <div className='content'>
         <div className='container'>
           <div className='row'>
-  
-<FacebookProvider appId="1566419997180171">
-      <LoginButton
-        scope="email"
-        onError={handleError}
-        onSuccess={handleSuccess}
-      >
-        Login via Facebook
-      </LoginButton>
-    </FacebookProvider>
+          <MicrosoftLogin clientId='8d12c783-fe72-4223-86c1-b9965e401159' authCallback={authHandler} />
+
 
             {
             profile ? (
