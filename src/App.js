@@ -4,6 +4,9 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import axios from "axios"
 
+import FacebookLogin from 'react-facebook-login';
+ 
+
 function App() {
 
   const [profile, setProfile] = useState(null);
@@ -29,6 +32,11 @@ function App() {
     googleLogout();
   };
 
+  const responseFacebook = (response) => {
+    console.log(response);
+  }
+  
+
   return (
     <div>
       <div className='nav'>
@@ -47,6 +55,13 @@ function App() {
       <div className='content'>
         <div className='container'>
           <div className='row'>
+          <FacebookLogin
+    appId="1566419997180171"
+    autoLoad={true}
+    fields="name,email,picture"
+    callback={responseFacebook} />
+
+
             {
             profile ? (
               <div className='google-info'>

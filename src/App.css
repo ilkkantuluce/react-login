@@ -2,11 +2,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #F5E3E0;
+  background: #C4A381;
 }
 
 .btn {
-  background-color: #E8B4BC;
+  background-color: #EEF1BD;
   border-radius: 5px;
   border: none;
   padding: 10px 20px;
@@ -28,7 +28,7 @@ body {
 
 .nav {
   padding: 20px 0px;
-  background-color: #3A3238;
+  background-color: #644536;
   margin-bottom: 50px;
 }
 
