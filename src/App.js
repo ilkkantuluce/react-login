@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import axios from "axios"
-import FacebookLogin from 'react-facebook-login';
- 
+import FacebookLogin from '@greatsumini/react-facebook-login';
+
 
 function App() {
 
@@ -55,10 +55,17 @@ function App() {
         <div className='container'>
           <div className='row'>
           <FacebookLogin
-    appId="1566419997180171"
-    autoLoad={true}
-    fields="name,email,picture"
-    callback={responseFacebook} />
+  appId="1566419997180171"
+  onSuccess={(response) => {
+    console.log('Login Success!', response);
+  }}
+  onFail={(error) => {
+    console.log('Login Failed!', error);
+  }}
+  onProfileSuccess={(response) => {
+    console.log('Get Profile Success!', response);
+  }}
+/>
 
 
             {
