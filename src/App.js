@@ -30,25 +30,41 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {
-          profile ? (
-            <div>
-              <img src={profile.picture} alt="user image" />
-              <h3>Gebruiker ingelogd</h3>
-              <p>Naam: {profile.name}</p>
-              <p>Email: {profile.email}</p>
-              <p>Gevestigde land: {profile.locale}</p>
-              <button onClick={logOut}>Uitloggen</button>
-            </div>
-          ) : (
-            <button onClick={() => login()}>Log in met Google</button>
-          )}
-
-      </header>
+    <div>
+      <div className='nav'>
+        <div className='container'>
+          <div className='row'>
+          {
+            profile ? (
+            <button onClick={logOut} className='btn'>Uitloggen</button>
+            ) : (
+              <button onClick={() => login()} className='btn'>Log in met Google</button>
+            )
+          }
+          </div>
+        </div>
+      </div>
+      <div className='content'>
+        <div className='container'>
+          <div className='row'>
+            {
+            profile ? (
+              <div className='google-info'>
+                <h3>Gebruiker ingelogd</h3>
+                <img src={profile.picture} alt="user image" />
+                <p>Naam: {profile.name}</p>
+                <p>Email: {profile.email}</p>
+                <p>Gevestigde land: {profile.locale}</p>
+              </div>
+            ) : (
+              ''
+              )
+            }
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
