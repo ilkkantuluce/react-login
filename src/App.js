@@ -31,9 +31,7 @@ function App() {
     googleLogout();
   };
 
-  const responseFacebook = (response) => {
-    console.log(response);
-  }
+ 
   
 
   return (
