@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import axios from "axios"
-import FacebookLogin from '@greatsumini/react-facebook-login';
+import { FacebookProvider, LoginButton } from 'react-facebook';
 
 
 function App() {
@@ -32,7 +32,13 @@ function App() {
   };
 
  
-  
+  function handleSuccess(response) {
+    console.log(response.status);
+  }
+
+  function handleError(error) {
+    console.log(error);
+  }
 
   return (
     <div>
@@ -52,19 +58,16 @@ function App() {
       <div className='content'>
         <div className='container'>
           <div className='row'>
-          <FacebookLogin
-  appId="1566419997180171"
-  onSuccess={(response) => {
-    console.log('Login Success!', response);
-  }}
-  onFail={(error) => {
-    console.log('Login Failed!', error);
-  }}
-  onProfileSuccess={(response) => {
-    console.log('Get Profile Success!', response);
-  }}
-/>
-
+  
+<FacebookProvider appId="1566419997180171">
+      <LoginButton
+        scope="email"
+        onError={handleError}
+        onSuccess={handleSuccess}
+      >
+        Login via Facebook
+      </LoginButton>
+    </FacebookProvider>
 
             {
             profile ? (
