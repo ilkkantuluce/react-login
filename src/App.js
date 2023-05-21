@@ -1,100 +1,89 @@
 import './App.css';
 import React, { useState } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
-import { googleLogout } from '@react-oauth/google';
-import axios from "axios"
 
-
-import { LoginSocialFacebook } from "reactjs-social-login";
-import { FacebookLoginButton } from "react-social-login-buttons";
+import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
 
 
 function App() {
 
-  const [profile, setProfile] = useState(null);
+  const [google, setGoogle] = useState(null);
+  const [facebook, setFacebook] = useState(null);
 
-  const login = useGoogleLogin({
-    onSuccess: async respose => {
-      try {
-        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: {
-            "Authorization": `Bearer ${respose.access_token}`
-          }
-        })
-        setProfile(res.data)
-        //console.log(res.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  });
 
   const logOut = () => {
-    setProfile(null);
-    googleLogout();
+    setGoogle(null);
+    setFacebook(null);
   };
-
-
-  const [profile2, setProfile2] = useState(null);
-
 
   return (
     <div>
       <div className='nav'>
         <div className='container'>
           <div className='row'>
-          {
-            profile2 ? (
-            <button onClick={logOut} className='btn'>Uitloggen</button>
-            ) : (
-              <button onClick={() => login()} className='btn'>Log in met Google</button>
-            )
-          }
+            {
+              google || facebook ? (
+                <div>
+                  <button onClick={logOut} className='btn'>Uitloggen</button>
+                </div>
+              ) : (
+                <div>
+                  <LoginSocialGoogle
+                    client_id="698917628220-p8eb9ro47uidlkfgdum4gpfqk2h1hfnr.apps.googleusercontent.com"
+                    onResolve={(response) => {
+                      console.log(response);
+                      setGoogle(response.data);
+                    }}
+                    onReject={(error) => {
+                      console.log(error);
+                    }}
+                  >
+                    <button className='btn'>Log in met google</button>
+                  </LoginSocialGoogle>
+
+                  <LoginSocialFacebook
+                    appId="785994089767475"
+                    onResolve={(response) => {
+                      console.log(response);
+                      setFacebook(response.data);
+                    }}
+                    onReject={(error) => {
+                      console.log(error);
+                    }}
+                  >
+                    <button className='btn'>Log in met Facebook</button>
+                  </LoginSocialFacebook>
+                </div>
+
+              )}
           </div>
         </div>
       </div>
       <div className='content'>
         <div className='container'>
           <div className='row'>
-         
-          {!profile2 ? (
-        <LoginSocialFacebook
-          appId="785994089767475"
-          onResolve={(response) => {
-            console.log(response);
-            setProfile2(response.data);
-          }}
-          onReject={(error) => {
-            console.log(error);
-          }}
-        >
-          <FacebookLoginButton />
-        </LoginSocialFacebook>
-      ) : (
-        ""
-      )}
 
-      {profile2 ? (
-        <div>
-          <h1>{profile2.name}</h1>
-          <img src={profile2.picture.data.url} />
-        </div>
-      ) : (
-        ""
-      )}
-
-
-            {
-            profile ? (
-              <div className='google-info'>
+            {facebook ? (
+              <div className='data-info'>
                 <h3>Gebruiker ingelogd</h3>
-                <img src={profile.picture} alt="user image" />
-                <p>Naam: {profile.name}</p>
-                <p>Email: {profile.email}</p>
-                <p>Gevestigde land: {profile.locale}</p>
+                <img src={facebook.picture.data.url} alt="" />
+                <p>Naam: {facebook.name}</p>
+                <p>Email: {facebook.email}</p>
               </div>
             ) : (
-              ''
+              ""
+            )}
+
+            {
+              google ? (
+                <div className='data-info'>
+                  <h3>Gebruiker ingelogd</h3>
+                  <img src={google.picture} alt="" />
+                  <p>Naam: {google.name}</p>
+                  <p>Email: {google.email}</p>
+                  <p>Gevestigde land: {google.locale}</p>
+                </div>
+              ) : (
+                ''
               )
             }
           </div>
