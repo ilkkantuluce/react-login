@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import axios from "axios"
-import { FacebookProvider, LoginButton } from 'react-facebook';
+
+
+import { LoginSocialFacebook } from "reactjs-social-login";
+import { FacebookLoginButton } from "react-social-login-buttons";
 
 
 function App() {
@@ -32,13 +35,8 @@ function App() {
   };
 
 
-  function handleSuccess(response) {
-    console.log(response.status);
-  }
+  const [profile2, setProfile2] = useState(null);
 
-  function handleError(error) {
-    console.log(error);
-  }
 
   return (
     <div>
@@ -46,7 +44,7 @@ function App() {
         <div className='container'>
           <div className='row'>
           {
-            profile ? (
+            profile2 ? (
             <button onClick={logOut} className='btn'>Uitloggen</button>
             ) : (
               <button onClick={() => login()} className='btn'>Log in met Google</button>
@@ -59,15 +57,31 @@ function App() {
         <div className='container'>
           <div className='row'>
          
-          <FacebookProvider appId="1566419997180171">
-      <LoginButton
-        scope="name"
-        onError={handleError}
-        onSuccess={handleSuccess}
-      >
-        Login via Facebook
-      </LoginButton>
-    </FacebookProvider>
+          {!profile2 ? (
+        <LoginSocialFacebook
+          appId="1566419997180171"
+          onResolve={(response) => {
+            console.log(response);
+            setProfile2(response.data);
+          }}
+          onReject={(error) => {
+            console.log(error);
+          }}
+        >
+          <FacebookLoginButton />
+        </LoginSocialFacebook>
+      ) : (
+        ""
+      )}
+
+      {profile2 ? (
+        <div>
+          <h1>{profile2.name}</h1>
+          <img src={profile2.picture.data.url} />
+        </div>
+      ) : (
+        ""
+      )}
 
 
             {
